@@ -33,5 +33,9 @@ public class TestUser {
         UserService.addUser(user2);
         System.out.println("****************");
         UserService.printList();
+        
+        System.out.println(UserService.getUserById(3));
+        UserService.deleteUser(1);
+        UserService.printList();
     }
 }
