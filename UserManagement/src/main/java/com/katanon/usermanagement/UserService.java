@@ -4,7 +4,14 @@
  */
 package com.katanon.usermanagement;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -66,5 +73,34 @@ public class UserService {
         for (User u : list) {
             System.out.println(u);
         }
+    }
+
+    public static void writeFile() {
+        FileOutputStream fos = null;
+        File file = null;
+        ObjectOutputStream oos = null;
+        try {
+            file = new File("user.dat");
+            fos = new FileOutputStream(file);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(userList);
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public static void readFile() {
+
     }
 }
