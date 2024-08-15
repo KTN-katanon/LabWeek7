@@ -15,6 +15,7 @@ public class UserFrame extends javax.swing.JFrame {
 
     private AbstractTableModel model;
     private int index = -1;
+
     /**
      * Creates new form UserFrame
      */
@@ -22,9 +23,9 @@ public class UserFrame extends javax.swing.JFrame {
         initComponents();
         load();
     }
-    
-    public void load(){
-        model = new AbstractTableModel(){
+
+    public void load() {
+        model = new AbstractTableModel() {
             @Override
             public String getColumnName(int column) {
                 switch (column) {
@@ -41,9 +42,9 @@ public class UserFrame extends javax.swing.JFrame {
                     default:
                         return "";
                 }
-            
+
             }
-            
+
             @Override
             public int getRowCount() {
                 return UserService.getSize();
@@ -51,7 +52,7 @@ public class UserFrame extends javax.swing.JFrame {
 
             @Override
             public int getColumnCount() {
-               return 5;
+                return 5;
             }
 
             @Override
@@ -65,15 +66,15 @@ public class UserFrame extends javax.swing.JFrame {
                     case 2:
                         return user.getName();
                     case 3:
-                        if(user.getRole() == 'A'){
+                        if (user.getRole() == 'A') {
                             return "Admin";
-                        }else{
+                        } else {
                             return "User";
                         }
                     case 4:
-                        if(user.getGender() == 'M'){
+                        if (user.getGender() == 'M') {
                             return "Male";
-                        }else{
+                        } else {
                             return "Female";
                         }
                     default:
@@ -84,6 +85,7 @@ public class UserFrame extends javax.swing.JFrame {
         tblUser.setModel(model);
         enableForm(false);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -350,7 +352,7 @@ public class UserFrame extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         index = -1;
-        edtLogin.requestFocus();    
+        edtLogin.requestFocus();
         enableForm(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -388,20 +390,20 @@ public class UserFrame extends javax.swing.JFrame {
         String login = edtLogin.getText();
         String password = new String(edtPassword.getPassword());
         char g = 'F';
-        if(rdoMale.isSelected()){
+        if (rdoMale.isSelected()) {
             g = 'M';
         }
         String role = cmbRole.getSelectedItem().toString();
         char r = 'U';
-        if(role.equals("Admin")){
+        if (role.equals("Admin")) {
             r = 'A';
         }
-        if(index == -1){
-            User user = new User (-1,login,name,password,g,r);
+        if (index == -1) {
+            User user = new User(-1, login, name, password, g, r);
             UserService.addUser(user);
-        }else {
+        } else {
             int id = UserService.getUser(index).getId();
-            User user = new User (id,login,name,password,g,r);
+            User user = new User(id, login, name, password, g, r);
             UserService.updateUser(index, user);
         }
         model.fireTableDataChanged();
@@ -415,31 +417,40 @@ public class UserFrame extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         index = tblUser.getSelectedRow();
+        fillForm();
+        edtLogin.requestFocus();
+        enableForm(true);
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    public void fillForm() {
         User editedUser = UserService.getUser(index);
         edtName.setText(editedUser.getName());
         edtLogin.setText(editedUser.getLogin());
         edtPassword.setText(editedUser.getPassword());
-        if(editedUser.getGender() == 'M'){
+        if (editedUser.getGender() == 'M') {
             rdoMale.setSelected(true);
-        }else{
+        } else {
             rdoFemale.setSelected(true);
         }
-        if(editedUser.getRole()== 'A'){
+        if (editedUser.getRole() == 'A') {
             cmbRole.setSelectedIndex(0);
-        }else{
+        } else {
             cmbRole.setSelectedIndex(1);
         }
         lblID.setText("ID: " + editedUser.getId());
-        edtLogin.requestFocus();
-    }//GEN-LAST:event_btnEditActionPerformed
+    }
 
     public void clearForm() {
-        edtLogin.setText("");
-        edtName.setText("");
-        edtPassword.setText("");
-        cmbRole.setSelectedIndex(1);
-        rdoMale.setSelected(true);
-        edtLogin.requestFocus();
+        if (index == -1) {
+            edtLogin.setText("");
+            edtName.setText("");
+            edtPassword.setText("");
+            cmbRole.setSelectedIndex(1);
+            rdoMale.setSelected(true);
+            edtLogin.requestFocus();
+        }else {
+            fillForm();
+        }
     }
 
     /**
