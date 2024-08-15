@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UserFrame extends javax.swing.JFrame {
 
+    private AbstractTableModel model;
+
     /**
      * Creates new form UserFrame
      */
@@ -22,7 +24,7 @@ public class UserFrame extends javax.swing.JFrame {
     }
     
     public void load(){
-        tblUser.setModel(new AbstractTableModel(){
+        model = new AbstractTableModel(){
             @Override
             public String getColumnName(int column) {
                 switch (column) {
@@ -63,14 +65,23 @@ public class UserFrame extends javax.swing.JFrame {
                     case 2:
                         return user.getName();
                     case 3:
-                        return user.getRole();
+                        if(user.getRole() == 'A'){
+                            return "Admin";
+                        }else{
+                            return "User";
+                        }
                     case 4:
-                        return user.getGender();
+                        if(user.getGender() == 'M'){
+                            return "Male";
+                        }else{
+                            return "Female";
+                        }
                     default:
                         return "";
                 }
             }
-        });
+        };
+        tblUser.setModel(model);
                 
     }
     /**
@@ -161,6 +172,11 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -360,10 +376,25 @@ public class UserFrame extends javax.swing.JFrame {
         if(role.equals("Admin")){
             r = 'A';
         }
-        System.out.println(name + " " + login + " " + password + " " + role);
+        
         User user = new User (-1,login,name,password,g,r);
-        System.out.println(user);
+        UserService.addUser(user);
+        model.fireTableDataChanged();
+        clearForm();
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearForm();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    public void clearForm() {
+        edtLogin.setText("");
+        edtName.setText("");
+        edtPassword.setText("");
+        cmbRole.setSelectedIndex(1);
+        rdoMale.setSelected(true);
+        edtLogin.requestFocus();
+    }
 
     /**
      * @param args the command line arguments
