@@ -4,10 +4,18 @@
  */
 package com.katanon.usermanagement;
 
+import java.io.Serializable;
+
 /**
  *
  * @author nonku
  */
-public class User {
+public class User implements Serializable{
+    private int id;
+    private String login;
+    private String name;
+    private String password;
+    private char gender;
+    private char role;
     
 }
