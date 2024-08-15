@@ -22,9 +22,16 @@ public class TestUser {
         for(int i =0; i < userList.size();i++){
             System.out.println(userList.get(i));
         }
-        
+        userList.remove(0);
+        userList.set(0, admin);
         for(User u :userList){
             System.out.println(u);
         }
+        
+        UserService.addUser(admin);
+        UserService.addUser(user1);
+        UserService.addUser(user2);
+        System.out.println("****************");
+        UserService.printList();
     }
 }
