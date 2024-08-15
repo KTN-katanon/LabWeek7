@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class UserFrame extends javax.swing.JFrame {
 
     private AbstractTableModel model;
-
+    private int index = -1;
     /**
      * Creates new form UserFrame
      */
@@ -290,6 +290,11 @@ public class UserFrame extends javax.swing.JFrame {
         });
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +349,7 @@ public class UserFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        index = -1;
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -376,9 +381,14 @@ public class UserFrame extends javax.swing.JFrame {
         if(role.equals("Admin")){
             r = 'A';
         }
-        
-        User user = new User (-1,login,name,password,g,r);
-        UserService.addUser(user);
+        if(index == -1){
+            User user = new User (-1,login,name,password,g,r);
+            UserService.addUser(user);
+        }else {
+            int id = UserService.getUser(index).getId();
+            User user = new User (id,login,name,password,g,r);
+            UserService.updateUser(index, user);
+        }
         model.fireTableDataChanged();
         clearForm();
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -386,6 +396,26 @@ public class UserFrame extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        index = tblUser.getSelectedRow();
+        User editedUser = UserService.getUser(index);
+        edtName.setText(editedUser.getName());
+        edtLogin.setText(editedUser.getLogin());
+        edtPassword.setText(editedUser.getPassword());
+        if(editedUser.getGender() == 'M'){
+            rdoMale.setSelected(true);
+        }else{
+            rdoFemale.setSelected(true);
+        }
+        if(editedUser.getRole()== 'A'){
+            cmbRole.setSelectedIndex(0);
+        }else{
+            cmbRole.setSelectedIndex(1);
+        }
+        lblID.setText("ID: " + editedUser.getId());
+        edtLogin.requestFocus();
+    }//GEN-LAST:event_btnEditActionPerformed
 
     public void clearForm() {
         edtLogin.setText("");
