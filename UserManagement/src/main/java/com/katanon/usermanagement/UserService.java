@@ -24,9 +24,26 @@ public class UserService {
         return userList;
     }
     
+    public static User getUser(int index){
+        return userList.get(index);
+    }
+    
+    public static User getUserById(int id){
+        return userList.get(id);
+    }
+    
+    public static int getSize() {
+        return userList.size();
+    }
+    
     public static User updateUser(int index, User user){
         userList.set(index, user);
         return user;
+    }
+    
+    public static User deleteUser(int index){
+        return userList.remove(index);
+        
     }
     
     public static void printList() {
