@@ -24,6 +24,11 @@ public class UserService {
         return userList;
     }
     
+    public static User updateUser(int index, User user){
+        userList.set(index, user);
+        return user;
+    }
+    
     public static void printList() {
         ArrayList<User> list = UserService.getUsers();
         for(User u :list){
