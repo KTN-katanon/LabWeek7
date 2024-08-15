@@ -74,6 +74,11 @@ public class User implements Serializable{
     public void setRole(char role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", login=" + login + ", name=" + name + ", password=" + password + ", gender=" + gender + ", role=" + role + '}';
+    }
     
     
 }
