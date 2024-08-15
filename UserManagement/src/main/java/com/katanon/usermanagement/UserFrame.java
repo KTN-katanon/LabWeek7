@@ -450,6 +450,7 @@ public class UserFrame extends javax.swing.JFrame {
             edtLogin.requestFocus();
         }else {
             fillForm();
+            edtLogin.requestFocus();
         }
     }
 
