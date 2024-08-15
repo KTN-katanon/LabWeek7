@@ -82,7 +82,7 @@ public class UserFrame extends javax.swing.JFrame {
             }
         };
         tblUser.setModel(model);
-                
+        enableForm(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -350,10 +350,25 @@ public class UserFrame extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         index = -1;
+        edtLogin.requestFocus();    
+        enableForm(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
+    public void enableForm(boolean status) {
+        edtLogin.setEnabled(status);
+        edtName.setEnabled(status);
+        edtPassword.setEnabled(status);
+        rdoFemale.setEnabled(status);
+        rdoMale.setEnabled(status);
+        cmbRole.setEnabled(status);
+        btnSave.setEnabled(status);
+        btnClear.setEnabled(status);
+    }
+
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        index = tblUser.getSelectedRow();
+        UserService.deleteUser(index);
+        model.fireTableDataChanged();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void edtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtLoginActionPerformed
@@ -391,6 +406,7 @@ public class UserFrame extends javax.swing.JFrame {
         }
         model.fireTableDataChanged();
         clearForm();
+        enableForm(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
