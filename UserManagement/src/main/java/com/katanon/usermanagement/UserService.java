@@ -15,6 +15,15 @@ public class UserService {
     private static ArrayList<User> userList = new ArrayList<>();
     private static int lastId = 1;
 
+    static {
+        User admin = new User(1, "admin", "Administrator", "pass@1234", 'M', 'A');
+        User user1 = new User(2, "user1", "User 1", "pass@1234", 'F', 'U');
+        User user2 = new User(3, "user2", "User 2", "pass@1234", 'M', 'U');
+        addUser(admin);
+        addUser(user1);
+        addUser(user2);
+    }
+
     public static User addUser(User newUser) {
         newUser.setId(lastId++);
         userList.add(newUser);
@@ -30,10 +39,10 @@ public class UserService {
     }
 
     public static User getUserById(int id) {
-        for(User u: userList){
-            if(u.getId() == id){
+        for (User u : userList) {
+            if (u.getId() == id) {
                 return u;
-            } 
+            }
         }
         return null;
     }

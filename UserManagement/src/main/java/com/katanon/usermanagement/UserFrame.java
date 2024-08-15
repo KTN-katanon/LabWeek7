@@ -4,6 +4,9 @@
  */
 package com.katanon.usermanagement;
 
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author nonku
@@ -15,8 +18,61 @@ public class UserFrame extends javax.swing.JFrame {
      */
     public UserFrame() {
         initComponents();
+        load();
     }
+    
+    public void load(){
+        tblUser.setModel(new AbstractTableModel(){
+            @Override
+            public String getColumnName(int column) {
+                switch (column) {
+                    case 0:
+                        return "ID";
+                    case 1:
+                        return "LOGIN";
+                    case 2:
+                        return "NAME";
+                    case 3:
+                        return "ROLE";
+                    case 4:
+                        return "GENDER";
+                    default:
+                        return "";
+                }
+            
+            }
+            
+            @Override
+            public int getRowCount() {
+                return UserService.getSize();
+            }
 
+            @Override
+            public int getColumnCount() {
+               return 5;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                User user = UserService.getUser(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return user.getId();
+                    case 1:
+                        return user.getLogin();
+                    case 2:
+                        return user.getName();
+                    case 3:
+                        return user.getRole();
+                    case 4:
+                        return user.getGender();
+                    default:
+                        return "";
+                }
+            }
+        });
+                
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
